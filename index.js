@@ -13,17 +13,19 @@ app.use(morgan("dev"));
 const { PrismaClient } = pkg;
 const prisma = new PrismaClient();
 
-app.get("/todos", async (req, res) => {
-  const posts = await prisma.todoItem.findMany({
+app.get("/todos/:email", async (req, res) => {
+  const email = req.params.email
+  const todoItems = await prisma.todoItem.findMany({
     where: {
       author: {
-        email: "cristian.penarrieta@gmail.com",
+        email: email
       },
     },
   });
-  res.json(posts);
+  res.json(todoItems);
 });
 
+// ==== Endpoints to implement: ====
 // creates a todo item 
 // deletes a todo item by id
 // get a todo item by id
